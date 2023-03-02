@@ -35,3 +35,6 @@ python speech_to_text_ctc.py --config-name=conformer_ctc_char  --config-path /wo
 ```
 
 `Result`: 6.5 WER per 50 epoch
+
+## 2. S4 Encoder from Sashimi
+

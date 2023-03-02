@@ -1,2 +1,8 @@
+__pycache__/
+wandb/
+
 # experiments
 experiments
+
+# configs
+configs/test.yaml
