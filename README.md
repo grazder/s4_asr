@@ -26,8 +26,12 @@ cat train*.json > train.json
 
 `WandB Run`: [Conformer-CTC-Char](https://wandb.ai/grazder/s4_asr/runs/2023-02-27_23-32-00?workspace=user-grazder)
 
+`GPU`: 2x RTX 2080 Ti 11 GB
+
 Start run
 
 ```bash
 python speech_to_text_ctc.py --config-name=conformer_ctc_char  --config-path /work/s4_asr/configs/
 ```
+
+`Result`: 6.5 WER per 50 epoch
