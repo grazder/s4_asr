@@ -75,6 +75,7 @@ from nemo.collections.asr.models import EncDecCTCModel
 from nemo.core.config import hydra_runner
 from nemo.utils import logging
 from nemo.utils.exp_manager import exp_manager
+from pytorch_lightning.loggers.wandb import WandbLogger
 
 
 @hydra_runner(config_path="../conf", config_name="config")
@@ -84,6 +85,14 @@ def main(cfg):
     trainer = pl.Trainer(**cfg.trainer)
     exp_manager(trainer, cfg.get("exp_manager", None))
     asr_model = EncDecCTCModel(cfg=cfg.model, trainer=trainer)
+
+    if cfg.get(wandb_logger_watch, None):
+        wandb_loggers = [logger for logger in trainer.loggers if type(logger) is WandbLogger]
+        assert len(wandb_loggers) == 1, 'Found wrong number of WandbLogger'
+        wandb_logger = wandb_loggers[0]
+
+        wandb_logger.watch(asr_model)
+        logging.info(f'WandB watch: Turned On')
 
     # Initialize the weights of the model from another model, if provided via config
     asr_model.maybe_init_from_pretrained_checkpoint(cfg)
