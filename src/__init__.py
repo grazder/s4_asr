@@ -1,1 +1,2 @@
-from nemo.collections.asr.modules.conformer_encoder import ConformerEncoder
+from src.s4_encoder_layer import S4ASREncoderLayer
+from src.s4_encoder import S4ASREncoder

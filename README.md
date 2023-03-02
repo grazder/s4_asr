@@ -38,3 +38,13 @@ python speech_to_text_ctc.py --config-name=conformer_ctc_char  --config-path /wo
 
 ## 2. S4 Encoder from Sashimi
 
+Installation
+
+```
+pip install opt_einsum
+pip install pykeops cmake
+cd state-spaces/extensions/cauchy/
+python setup.py install
+cd ../../../
+```
+

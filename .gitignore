@@ -6,3 +6,5 @@ experiments
 
 # configs
 configs/test.yaml
+
+cauchy_mult.egg-info/
