@@ -46,8 +46,8 @@ class S4ASREncoderLayer(torch.nn.Module, AdapterModuleMixin, AccessMixin):
         self.conv = S4ASREncoderConvolution(d_model=d_model, kernel_size=conv_kernel_size, norm_type=conv_norm_type)
 
         # multi-headed self-attention module
-        self.norm_s4 = LayerNorm(d_model, d_state=d_state)
-        self.s4 = s4.S4(d_model, dropout=dropout)
+        self.norm_s4 = LayerNorm(d_model)
+        self.s4 = s4.S4(d_model, dropout=dropout, d_state=d_state)
 
         # second feed forward module
         self.norm_feed_forward2 = LayerNorm(d_model)
