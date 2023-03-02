@@ -23,6 +23,7 @@ cat train*.json > train.json
 ## 1. Conformer Baseline
 
 `Config`: [conformer_ctc_char.yaml](configs/conformer_ctc_char.yaml)
+
 `WandB Run`: [Conformer-CTC-Char](https://wandb.ai/grazder/s4_asr/runs/2023-02-27_23-32-00?workspace=user-grazder)
 
 Start run
