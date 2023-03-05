@@ -62,5 +62,9 @@ python speech_to_text_ctc.py --config-name=s4_instead_attention_ctc_char  --conf
 
 ## 3. H3 instead of MHA Conformer
 
+```bash
+python speech_to_text_ctc.py --config-name=h3_instead_attention_ctc_char  --config-path /work/s4_asr/configs/
+```
+
 
 

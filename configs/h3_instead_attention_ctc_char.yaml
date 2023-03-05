@@ -3,7 +3,7 @@
 
 # You may find more detail on Conformer-CTC at `examples/asr/conf/conformer/conformer_ctc_bpe.yaml`
 
-name: "S4-Instead-of-Attention-CTC-Char"
+name: "H3-Instead-of-Attention-CTC-Char"
 
 model:
   sample_rate: 16000
@@ -150,7 +150,7 @@ trainer:
 
 exp_manager:
   exp_dir: experiments
-  name: ${name}/2023-03-02_23-01-43
+  name: ${name}
   create_tensorboard_logger: false
   create_checkpoint_callback: true
   checkpoint_callback_params:
@@ -170,7 +170,7 @@ exp_manager:
     name: ${name}
     project: s4_asr
     resume: "must"
-    id: "2023-03-02_23-01-43"
+    id: "zvrie8qm"
 
 
 wandb_logger_watch: true

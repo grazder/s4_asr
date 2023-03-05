@@ -8,3 +8,5 @@ experiments
 configs/test.yaml
 
 cauchy_mult.egg-info/
+
+./check.py

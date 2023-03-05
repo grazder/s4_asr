@@ -1,3 +1,6 @@
 [submodule "state-spaces"]
 	path = state-spaces
 	url = https://github.com/HazyResearch/state-spaces.git
+[submodule "safari"]
+	path = safari
+	url = https://github.com/HazyResearch/safari/

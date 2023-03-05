@@ -6,7 +6,7 @@ import torch
 import torch.distributed
 import torch.nn as nn
 
-from src import S4ASREncoderLayer
+from models import H3ASREncoderLayer
 from nemo.collections.asr.parts.submodules.subsampling import ConvSubsampling, StackingSubsampling
 from nemo.core.classes.common import typecheck
 from nemo.core.classes.exportable import Exportable
@@ -14,10 +14,10 @@ from nemo.core.classes.mixins import adapter_mixins
 from nemo.core.classes.module import NeuralModule
 from nemo.core.neural_types import AcousticEncodedRepresentation, LengthsType, NeuralType, SpectrogramType
 
-__all__ = ['S4ASREncoderLayer']
+__all__ = ['H3ASREncoderLayer']
 
 
-class S4ASREncoder(NeuralModule, Exportable):
+class H3ASREncoder(NeuralModule, Exportable):
     def input_example(self, max_batch=1, max_dim=256):
         """
         Generates input examples for tracing etc.
@@ -103,7 +103,7 @@ class S4ASREncoder(NeuralModule, Exportable):
 
         self.layers = nn.ModuleList()
         for i in range(n_layers):
-            layer = S4ASREncoderLayer(
+            layer = H3ASREncoderLayer(
                 d_model=d_model,
                 d_ff=d_ff,
                 conv_kernel_size=conv_kernel_size,
