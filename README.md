@@ -36,11 +36,7 @@ python speech_to_text_ctc.py --config-name=conformer_ctc_char  --config-path /wo
 
 `Result`: 6.5 WER per 50 epoch
 
-<<<<<<< HEAD
 ## 2. S4 instead of MHA Conformer
-=======
-## 2. S4 Encoder from Sashimi
->>>>>>> 6fc950f84961ea0c73689de23a68f9ca94f17f06
 
 Installation
 
@@ -52,7 +48,6 @@ python setup.py install
 cd ../../../
 ```
 
-<<<<<<< HEAD
 `Config`: [s4_instead_attention_ctc_char.yaml](configs/s4_instead_attention_ctc_char.yaml)
 
 `WandB Run`: [S4-Instead-of-Attention-CTC-Char](https://wandb.ai/grazder/s4_asr/runs/2023-03-02_23-01-43)
@@ -69,5 +64,3 @@ python speech_to_text_ctc.py --config-name=s4_instead_attention_ctc_char  --conf
 
 
 
-=======
->>>>>>> 6fc950f84961ea0c73689de23a68f9ca94f17f06
