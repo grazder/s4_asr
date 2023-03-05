@@ -1,2 +1,10 @@
+__pycache__/
+wandb/
+
 # experiments
 experiments
+
+# configs
+configs/test.yaml
+
+cauchy_mult.egg-info/
