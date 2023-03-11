@@ -6,9 +6,9 @@ WandB Project - [grazder/s4_asr](https://wandb.ai/grazder/s4_asr)
 
 Download NeMo dependencies:
 ```bash
-apt-get update && apt-get install -y libsndfile1 ffmpeg
-pip install Cython
-pip install nemo_toolkit['all']==1.15.0
+cd Docker
+docker build -f Dockerfile -t grazder/pytorch22.11 .
+bash start.sh
 ```
 
 Download LibriSpeech
