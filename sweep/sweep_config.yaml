@@ -1,0 +1,25 @@
+program: speech_to_text_ctc.py
+method: bayes
+name: h3_conv_sweep
+metric:
+    goal: minimize
+    name: val_wer
+parameters:
+  model.optim.lr:
+    distribution: uniform
+    max: 0.01
+    min: 0.000001
+command:
+    - ${env}
+    - ${interpreter}
+    - ${program}
+    - '--config-name=h3_instead_attention_ctc_char'
+    - '--config-path'
+    - '/work/s4_asr/configs/'
+    - 'trainer.max_epochs=1'
+    - 'exp_manager.resume_if_exists=false'
+    - 'exp_manager.resume_ignore_no_checkpoint=false'
+    - ${args_no_hyphens}
+project: s4_asr
+run_cap: 5
+

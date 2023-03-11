@@ -3,7 +3,7 @@
 
 # You may find more detail on Conformer-CTC at `examples/asr/conf/conformer/conformer_ctc_bpe.yaml`
 
-name: "H3-Instead-of-Attention-Fix-CTC-Char"
+name: "H3-Instead-of-Attention-Fix-CTC-Char-torch1.13"
 
 model:
   sample_rate: 16000
@@ -169,7 +169,7 @@ exp_manager:
   # You may use this section to create a W&B logger
   create_wandb_logger: true
   wandb_logger_kwargs:
-    name: ${name}
+    # name: ${name}
     project: s4_asr
 
 

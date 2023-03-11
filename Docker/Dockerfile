@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/pytorch:22.11-py3
+FROM nvcr.io/nvidia/pytorch:22.05-py3
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN sed -i "s|archive.ubuntu.com|ru.archive.ubuntu.com|g" /etc/apt/sources.list
@@ -16,7 +16,8 @@ ONBUILD ENV SHELL=/bin/zsh
 
 ENV PIP_NO_CACHE_DIR=1
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt update --fix-missing -y && apt upgrade -y
+RUN apt-get install -y \
     build-essential \
     cmake \
     curl \
@@ -32,24 +33,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     libsndfile1 \
     ffmpeg \
-    python3.8-venv
+    openssh-client \
+    sshfs && \
+    apt -yqq install ssh
 
-ENV PATH /opt/conda/bin:$PATH
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh -O ~/miniconda.sh && \
-    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-    rm ~/miniconda.sh
-RUN pip install -U --upgrade pip
+RUN pip install --upgrade pip
 
-RUN pip install -U Cython
-RUN pip install -U nemo_toolkit['all']==1.15.0
+RUN pip install Cython
+RUN pip install nemo_toolkit[asr]==1.10.0
 
-RUN pip install -U pytest matplotlib jupyter ipython ipdb gpustat scikit-learn spacy munch einops opt_einsum fvcore gsutil cmake pykeops zstandard psutil h5py twine gdown eeghdf \
+RUN pip install pytest matplotlib jupyter ipython ipdb gpustat scikit-learn spacy munch einops opt_einsum fvcore gsutil cmake pykeops zstandard psutil h5py twine gdown eeghdf \
     && python -m spacy download en_core_web_sm
 
-RUN pip install -U hydra-core==1.3.1 hydra-colorlog==1.2.0 hydra-optuna-sweeper==1.2.0 pyrootutils rich
-RUN pip install -U transformers==4.26.0 datasets==2.9.0 pytorch-lightning==1.9.0 triton==2.0.0.dev20221202 wandb==0.13.9 timm==0.6.12 torchmetrics==0.11.1
-
-RUN pip install -U jupyterlab ipywidgets jupyterlab-lsp python-lsp-server jupyterlab_execute_time jupyterlab_code_formatter
+RUN pip install jupyterlab ipywidgets jupyterlab-lsp python-lsp-server jupyterlab_execute_time jupyterlab_code_formatter
 
 RUN pip install autopep8 \
                 aquirdturtle_collapsible_headings \
@@ -57,6 +53,8 @@ RUN pip install autopep8 \
 
 RUN git clone https://github.com/HazyResearch/safari.git && \
     cd safari/csrc/fftconv && pip install . && cd ../../../ && rm -rf safari
+
+RUN pip install torchmetrics==0.8.2
 
 COPY initialize.sh .
 RUN chmod +x initialize.sh
