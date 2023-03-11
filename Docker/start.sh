@@ -37,7 +37,7 @@ docker run --runtime=nvidia \
 -p $TENSORBOARD_PORT:6006 \
 --shm-size 64G \
 "${RUN_ARGS[@]}" \
---name $CONTAINER_NAME grazder/pytorch22.11:latest
+--name $CONTAINER_NAME pytorch22.05:latest
 
 if [ "$MODE" == "lab" ]; then
   echo -e "Container started\n" && \

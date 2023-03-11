@@ -37,5 +37,5 @@ runuser -l $LOGIN -c ". /home/$LOGIN/.bashrc"
 if [ "$MODE" == "bash" ]; then
   su $LOGIN;
 else
-  runuser -l $LOGIN -c "jupyter-lab --NotebookApp.notebook_dir=/ --LabApp.token='' $JUPYTER_ARGS"
+  runuser -l $LOGIN -c "/opt/conda/bin/jupyter-lab --NotebookApp.notebook_dir=/ --LabApp.token='' $JUPYTER_ARGS"
 fi
