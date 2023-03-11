@@ -66,7 +66,8 @@ class H3ASREncoder(NeuralModule, Exportable):
         conv_norm_type='batch_norm',
         dropout=0.1,
         dropout_emb=0.1,
-        d_state=64
+        d_state=64,
+        l_max=None
     ):
         super().__init__()
 
@@ -109,7 +110,8 @@ class H3ASREncoder(NeuralModule, Exportable):
                 conv_kernel_size=conv_kernel_size,
                 conv_norm_type=conv_norm_type,
                 dropout=dropout,
-                d_state=d_state
+                d_state=d_state,
+                l_max=l_max
             )
             self.layers.append(layer)
 

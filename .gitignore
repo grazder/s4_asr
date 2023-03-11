@@ -10,3 +10,5 @@ configs/test.yaml
 cauchy_mult.egg-info/
 
 ./check.py
+.ipynb_checkpoints
+Untitled*.ipynb

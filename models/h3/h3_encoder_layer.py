@@ -8,7 +8,7 @@ from nemo.core.classes.mixins.adapter_mixins import AdapterModuleMixin
 from nemo.utils import logging
 
 
-from safari.src.models.sequence.h3 import H3
+from safari.src.models.sequence.h3_conv import H3Conv
 
 
 __all__ = ['H3ASREncoderConvolution', 'H3ASREncoderFeedForward', 'H3ASREncoderLayer']
@@ -33,6 +33,7 @@ class H3ASREncoderLayer(torch.nn.Module, AdapterModuleMixin, AccessMixin):
         conv_norm_type='batch_norm',
         dropout=0.1,
         d_state=64,
+        l_max=None
     ):
         super(H3ASREncoderLayer, self).__init__()
 
@@ -48,7 +49,12 @@ class H3ASREncoderLayer(torch.nn.Module, AdapterModuleMixin, AccessMixin):
 
         # multi-headed self-attention module
         self.norm_h3 = LayerNorm(d_model)
-        self.h3 = H3(d_model, dropout=dropout, d_state=d_state)
+        self.h3 = H3Conv(
+            d_model, 
+            dropout=dropout, 
+            d_state=d_state,
+            l_max=l_max
+        )
 
         # second feed forward module
         self.norm_feed_forward2 = LayerNorm(d_model)

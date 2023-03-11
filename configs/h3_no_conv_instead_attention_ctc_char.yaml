@@ -3,7 +3,7 @@
 
 # You may find more detail on Conformer-CTC at `examples/asr/conf/conformer/conformer_ctc_bpe.yaml`
 
-name: "H3-Instead-of-Attention-Fix-CTC-Char"
+name: "H3-No-Conv-Instead-of-Attention-CTC-Char"
 
 model:
   sample_rate: 16000
@@ -101,8 +101,6 @@ model:
     dropout: 0.1 # The dropout used in most of the Conformer Modules
     dropout_emb: 0.0 # The dropout used for embeddings
 
-    l_max: 1024
-
   decoder:
     _target_: nemo.collections.asr.modules.ConvASRDecoder
     feat_in: null
@@ -111,22 +109,22 @@ model:
 
   optim:
     name: adamw
-    lr: 5e-5
+    lr: 5.0
     # optimizer arguments
     betas: [0.9, 0.98]
     # less necessity for weight_decay as we already have large augmentations with SpecAug
     # you may need weight_decay for large models, stable AMP training, small datasets, or when lower augmentations are used
     # weight decay of 0.0 with lr of 2.0 also works fine
-    weight_decay: 1e-6
+    weight_decay: 0.0
 
-    # # scheduler setup
-    # sched:
-    #   name: NoamAnnealing
-    #   d_model: ${model.encoder.d_model}
-    #   # scheduler config override
-    #   warmup_steps: 10000
-    #   warmup_ratio: null
-    #   min_lr: 1e-6
+    # scheduler setup
+    sched:
+      name: NoamAnnealing
+      d_model: ${model.encoder.d_model}
+      # scheduler config override
+      warmup_steps: 10000
+      warmup_ratio: null
+      min_lr: 1e-6
 
 trainer:
   devices: -1 # number of GPUs, -1 would use all available GPUs
