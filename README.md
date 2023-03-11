@@ -7,7 +7,7 @@ WandB Project - [grazder/s4_asr](https://wandb.ai/grazder/s4_asr)
 Download NeMo dependencies:
 ```bash
 cd Docker
-docker build -f Dockerfile -t grazder/pytorch22.11 .
+docker build -f Dockerfile -t pytorch22.11 .
 bash start.sh
 ```
 

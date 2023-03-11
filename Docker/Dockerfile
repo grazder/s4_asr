@@ -55,6 +55,9 @@ RUN pip install autopep8 \
                 aquirdturtle_collapsible_headings \
                 lckr-jupyterlab-variableinspector
 
+RUN git clone https://github.com/HazyResearch/safari.git && \
+    cd safari/csrc/fftconv && pip install . && cd ../../../ && rm -rf safari
+
 COPY initialize.sh .
 RUN chmod +x initialize.sh
 
