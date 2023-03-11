@@ -7,12 +7,10 @@ RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ENV HOME="/home/$(whoami)"
-RUN mkdir -p "/home/$(whoami)" && chmod 777 "/home/$(whoami)"
-WORKDIR "/home/$(whoami)"
+ENV PYTHONUNBUFFERED 1
 
 ONBUILD COPY dotfiles ./dotfiles
-ONBUILD RUN cd ~/dotfiles && stow bash zsh tmux && sudo chsh -s /usr/bin/zsh $(whoami)
+ONBUILD RUN cd ~/dotfiles && stow bash zsh tmux && sudo chsh -s /usr/bin/zsh "$(whoami)"
 # nvcr pytorch image sets SHELL=/bin/bash
 ONBUILD ENV SHELL=/bin/zsh
 
@@ -33,8 +31,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     unzip \
     libsndfile1 \
-    ffmpeg
+    ffmpeg \
+    python3.8-venv
 
+ENV PATH /opt/conda/bin:$PATH
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh
 RUN pip install -U --upgrade pip
 
 RUN pip install -U Cython
