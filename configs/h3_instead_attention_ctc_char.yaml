@@ -3,7 +3,7 @@
 
 # You may find more detail on Conformer-CTC at `examples/asr/conf/conformer/conformer_ctc_bpe.yaml`
 
-name: "H3-Instead-of-Attention-Fix-CTC-Char-torch1.13"
+name: "H3-Instead-of-Attention-Fix-CTC-Char-torch1.13_fast_fft"
 
 model:
   sample_rate: 16000
@@ -65,13 +65,13 @@ model:
     pad_to: 0
     pad_value: 0.0
 
-  spec_augment:
-    _target_: nemo.collections.asr.modules.SpectrogramAugmentation
-    freq_masks: 2 # set to zero to disable it
-    # you may use lower time_masks for smaller models to have a faster convergence
-    time_masks: 2 # set to zero to disable it
-    freq_width: 27
-    time_width: 100
+  # spec_augment:
+  #   _target_: nemo.collections.asr.modules.SpectrogramAugmentation
+  #   freq_masks: 2 # set to zero to disable it
+  #   # you may use lower time_masks for smaller models to have a faster convergence
+  #   time_masks: 2 # set to zero to disable it
+  #   freq_width: 27
+  #   time_width: 100
 
   encoder:
     _target_: models.H3ASREncoder
@@ -101,7 +101,12 @@ model:
     dropout: 0.1 # The dropout used in most of the Conformer Modules
     dropout_emb: 0.0 # The dropout used for embeddings
 
-    l_max: 1024
+    l_max: 512
+    kernel_lr: ${model.optim.lr} # kernel lr
+    weight_init: 'random'
+    lam: 1e-4
+    kernel_dropout: 0.1
+    
 
   decoder:
     _target_: nemo.collections.asr.modules.ConvASRDecoder
@@ -111,7 +116,7 @@ model:
 
   optim:
     name: adamw
-    lr: 1e-2
+    lr: 1e-4
     # optimizer arguments
     betas: [0.9, 0.98]
     # less necessity for weight_decay as we already have large augmentations with SpecAug
@@ -136,7 +141,7 @@ trainer:
   val_check_interval: 1.0 # Set to 0.25 to check 4 times per epoch, or an int for number of iterations
   accelerator: auto
   strategy: ddp
-  accumulate_grad_batches: 10
+  accumulate_grad_batches: 5
   gradient_clip_val: 0.0
   precision: 32 # Should be set to 16 for O1 and O2 to enable the AMP.
   log_every_n_steps: 10  # Interval of logging.
@@ -163,8 +168,8 @@ exp_manager:
     always_save_nemo: True # saves the checkpoints as nemo files instead of PTL checkpoints
 
   # you need to set these two to True to continue the training
-  resume_if_exists: true
-  resume_ignore_no_checkpoint: true
+  resume_if_exists: false
+  resume_ignore_no_checkpoint: false
 
   # You may use this section to create a W&B logger
   create_wandb_logger: true

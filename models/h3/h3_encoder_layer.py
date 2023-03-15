@@ -1,4 +1,5 @@
 import torch
+import torch.nn.functional as F
 from torch import nn as nn
 from torch.nn import LayerNorm
 
@@ -33,11 +34,16 @@ class H3ASREncoderLayer(torch.nn.Module, AdapterModuleMixin, AccessMixin):
         conv_norm_type='batch_norm',
         dropout=0.1,
         d_state=64,
-        l_max=None
+        l_max=None,
+        learning_rate=None,
+        weight_init='random',
+        kernel_dropout=0,
+        lam=lam,
     ):
         super(H3ASREncoderLayer, self).__init__()
 
         self.fc_factor = 0.5
+        self.l_max = l_max
 
         # first feed forward module
         self.norm_feed_forward1 = LayerNorm(d_model)
@@ -53,7 +59,13 @@ class H3ASREncoderLayer(torch.nn.Module, AdapterModuleMixin, AccessMixin):
             d_model, 
             dropout=dropout, 
             d_state=d_state,
-            l_max=l_max
+            l_max=self.l_max,
+            use_fast_fftconv=True,
+            # kernel args
+            learning_rate=learning_rate,
+            weight_init=weight_init,
+            kernel_dropout=kernel_dropout,
+            lam=lam
         )
 
         # second feed forward module
@@ -67,12 +79,13 @@ class H3ASREncoderLayer(torch.nn.Module, AdapterModuleMixin, AccessMixin):
         """
         Args:
             x (torch.Tensor): input signals (B, T, d_model)
-            att_mask (torch.Tensor): attention masks(B, T, T)
-            pos_emb (torch.Tensor): (L, 1, d_model)
-            pad_mask (torch.tensor): padding mask
         Returns:
             x (torch.Tensor): (B, T, d_model)
         """
+        assert x.shape[1] <= self.l_max, f'{x.shape[1]} > {self.l_max}!'
+        x = F.pad(x, (0, 0, 0, self.l_max - x.shape[1]))
+        lengths = lengths * x.shape[1] / self.l_max
+        
         residual = x
         x = self.norm_feed_forward1(x)
         x = self.feed_forward1(x)

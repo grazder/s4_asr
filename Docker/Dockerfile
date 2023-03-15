@@ -40,7 +40,7 @@ RUN apt-get install -y \
 RUN pip install --upgrade pip
 
 RUN pip install Cython
-RUN pip install nemo_toolkit[asr]==1.10.0
+RUN pip install nemo_toolkit[asr]==1.15.0
 
 RUN pip install pytest matplotlib jupyter ipython ipdb gpustat scikit-learn spacy munch einops opt_einsum fvcore gsutil cmake pykeops zstandard psutil h5py twine gdown eeghdf \
     && python -m spacy download en_core_web_sm
@@ -53,8 +53,6 @@ RUN pip install autopep8 \
 
 RUN git clone https://github.com/HazyResearch/safari.git && \
     cd safari/csrc/fftconv && pip install . && cd ../../../ && rm -rf safari
-
-RUN pip install torchmetrics==0.8.2
 
 COPY initialize.sh .
 RUN chmod +x initialize.sh

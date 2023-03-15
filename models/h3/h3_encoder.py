@@ -67,7 +67,11 @@ class H3ASREncoder(NeuralModule, Exportable):
         dropout=0.1,
         dropout_emb=0.1,
         d_state=64,
-        l_max=None
+        l_max=None,
+        kernel_lr=None,
+        weight_init='random',
+        kernel_dropout=0,
+        lam=lam
     ):
         super().__init__()
 
@@ -111,7 +115,11 @@ class H3ASREncoder(NeuralModule, Exportable):
                 conv_norm_type=conv_norm_type,
                 dropout=dropout,
                 d_state=d_state,
-                l_max=l_max
+                l_max=l_max,
+                learning_rate=kernel_lr,
+                weight_init=weight_init,
+                kernel_dropout=kernel_dropout,
+                lam=lam,
             )
             self.layers.append(layer)
 

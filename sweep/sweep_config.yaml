@@ -1,3 +1,9 @@
+# kernel dropout - [0.1, 0.2, 0.3, 0.4, 0.5]
+# kernel lr - [0.0001, 0.0005, 0.001]
+# lambda - [0.001, 0.002, 0.003, 0.004, 0.005]
+# weight_decay
+# scheduler - cosine with linear warmup
+
 program: speech_to_text_ctc.py
 method: bayes
 name: h3_conv_sweep
@@ -7,8 +13,24 @@ metric:
 parameters:
   model.optim.lr:
     distribution: uniform
-    max: 0.01
+    max: 1e-3
+    min: 1e-6
+  model.optim.weight_decay:
+    distribution: uniform
+    max: 0.1
+    min: 1e-2
+  model.encoder.kenrel_dropout:
+    distribution: uniform
+    max: 0.5
+    min: 0.1
+  model.encoder.kernel_lr:
+    distribution:
     min: 0.0001
+    max: 0.001
+  model.encoder.lambda:
+    distribution: uniform
+    max: 0.005
+    min: 0.001
 command:
     - ${env}
     - ${interpreter}
@@ -21,5 +43,5 @@ command:
     - 'exp_manager.resume_ignore_no_checkpoint=false'
     - ${args_no_hyphens}
 project: s4_asr
-run_cap: 5
+run_cap: 10
 
